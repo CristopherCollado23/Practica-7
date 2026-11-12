@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # Servicio del servidor web (PHP con Apache)
+  app_web:
+    image: php:8.2-apache
+    container_name: contenedor_php_web
+    ports:
+      - "9090:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - servidor_db
+
+  # Servicio de la Base de Datos MySQL
+  servidor_db:
+    image: mysql:8.0
+    container_name: contenedor_mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: clave_secreta
+      MYSQL_DATABASE: catalogo_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - volumen_datos_db:/var/lib/mysql
+
+volumes:
+  volumen_datos_db:
